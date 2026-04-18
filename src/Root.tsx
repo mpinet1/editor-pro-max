@@ -15,6 +15,7 @@ import {Testimonial} from "./templates/content/Testimonial";
 // Promo templates
 import {Announcement} from "./templates/promo/Announcement";
 import {BeforeAfterDemo} from "./compositions/BeforeAfterDemo";
+import {FHALoanLimits, FHA_TOTAL_FRAMES} from "./compositions/FHALoanLimits";
 
 // Editing templates
 import {TalkingHeadEdit} from "./templates/editing/TalkingHeadEdit";
@@ -129,6 +130,17 @@ export const RemotionRoot: React.FC = () => {
           fps={30}
           width={1920}
           height={1080}
+        />
+      </Folder>
+
+      <Folder name="RealEstate">
+        <Composition
+          id="FHALoanLimits"
+          component={FHALoanLimits}
+          durationInFrames={FHA_TOTAL_FRAMES}
+          fps={30}
+          width={1080}
+          height={1920}
         />
       </Folder>
 
