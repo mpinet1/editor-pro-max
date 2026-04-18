@@ -11,16 +11,17 @@ import {AnimatedTitle} from "../components/text/AnimatedTitle";
 import {GradientBackground} from "../components/backgrounds/GradientBackground";
 import {ParticleField} from "../components/backgrounds/ParticleField";
 import {ProgressBar} from "../components/overlays/ProgressBar";
-import {Watermark} from "../components/overlays/Watermark";
 import {SafeArea} from "../components/layout/SafeArea";
 import {loadDefaultFonts, FONT_FAMILIES} from "../presets/fonts";
 
-const BG_COLORS = ["#050b1f", "#0a1d3a", "#0d2a4e"];
-const GOLD = "#f59e0b";
-const EMERALD = "#10b981";
-const RED = "#ef4444";
-const WHITE = "#ffffff";
-const MUTED = "#94a3b8";
+const BG_COLORS = ["#FFFFFF", "#FFF5F7", "#FDE7EC"];
+const GOLD = "#C9A961";
+const GOLD_LIGHT = "#E5CA8F";
+const PINK = "#F2A9B8";
+const ROSE = "#D4756F";
+const TEXT = "#3D2332";
+const MUTED = "#A68A8E";
+const SURFACE = "rgba(61, 35, 50, 0.08)";
 
 // Animated number that counts up from `from` to `to` over `duration` frames
 const CountUp: React.FC<{
@@ -121,7 +122,7 @@ const SceneHook: React.FC = () => {
         text="¿Comprando casa en Puerto Rico este año?"
         fontSize={78}
         fontWeight={900}
-        color={WHITE}
+        color={TEXT}
         enterAnimation="slideUp"
         exitAnimation="fade"
         enterDuration={18}
@@ -152,13 +153,13 @@ const SceneHeadline: React.FC = () => {
         <AbsoluteFill
           style={{justifyContent: "center", alignItems: "center", padding: 60}}
         >
-          <Badge text="Enero 2026" color={RED} />
+          <Badge text="Enero 2026" color={ROSE} />
           <div style={{height: 40}} />
           <AnimatedTitle
             text="Los límites FHA subieron"
             fontSize={96}
             fontWeight={900}
-            color={WHITE}
+            color={TEXT}
             enterAnimation="slideUp"
             exitAnimation="fade"
             enterDuration={20}
@@ -215,7 +216,7 @@ const SceneOldLimit: React.FC = () => {
           to={524225}
           duration={35}
           fontSize={140}
-          color={WHITE}
+          color={TEXT}
         />
         <div
           style={{
@@ -224,9 +225,9 @@ const SceneOldLimit: React.FC = () => {
             left: "-2%",
             height: 8,
             width: `${lineWidth}%`,
-            backgroundColor: RED,
+            backgroundColor: ROSE,
             borderRadius: 4,
-            boxShadow: `0 0 20px ${RED}`,
+            boxShadow: `0 0 20px ${ROSE}`,
             transform: "rotate(-4deg)",
           }}
         />
@@ -276,7 +277,7 @@ const SceneNewLimit: React.FC = () => {
           width: 900,
           height: 900,
           borderRadius: "50%",
-          background: `radial-gradient(circle, ${EMERALD}${Math.round(
+          background: `radial-gradient(circle, ${PINK}${Math.round(
             bgPulse * 60
           )
             .toString(16)
@@ -289,7 +290,7 @@ const SceneNewLimit: React.FC = () => {
           fontFamily: FONT_FAMILIES.heading,
           fontSize: 38,
           fontWeight: 600,
-          color: EMERALD,
+          color: PINK,
           textTransform: "uppercase",
           letterSpacing: 6,
           zIndex: 1,
@@ -303,7 +304,7 @@ const SceneNewLimit: React.FC = () => {
           to={541287}
           duration={60}
           fontSize={150}
-          color={EMERALD}
+          color={PINK}
         />
       </div>
       <Sequence from={70}>
@@ -403,8 +404,8 @@ const SceneMargin: React.FC = () => {
       <Sequence from={30}>
         <div
           style={{
-            backgroundColor: `${EMERALD}1a`,
-            border: `3px solid ${EMERALD}`,
+            backgroundColor: `${PINK}1a`,
+            border: `3px solid ${PINK}`,
             borderRadius: 32,
             padding: "50px 60px",
             textAlign: "center",
@@ -436,9 +437,9 @@ const SceneMargin: React.FC = () => {
               fontFamily: FONT_FAMILIES.display,
               fontSize: 130,
               fontWeight: 900,
-              color: EMERALD,
+              color: PINK,
               letterSpacing: -2,
-              textShadow: `0 0 40px ${EMERALD}88`,
+              textShadow: `0 0 40px ${PINK}88`,
             }}
           >
             3.5%
@@ -447,7 +448,7 @@ const SceneMargin: React.FC = () => {
             style={{
               fontFamily: FONT_FAMILIES.heading,
               fontSize: 34,
-              color: WHITE,
+              color: TEXT,
               marginTop: 10,
             }}
           >
@@ -481,7 +482,7 @@ const SceneHighCost: React.FC = () => {
         style={{
           fontSize: 180,
           transform: `scale(${pinScale})`,
-          filter: `drop-shadow(0 0 40px ${RED})`,
+          filter: `drop-shadow(0 0 40px ${ROSE})`,
         }}
       >
         📍
@@ -491,7 +492,7 @@ const SceneHighCost: React.FC = () => {
           fontFamily: FONT_FAMILIES.heading,
           fontSize: 52,
           fontWeight: 700,
-          color: WHITE,
+          color: TEXT,
           textAlign: "center",
           opacity: interpolate(frame, [10, 30], [0, 1], {
             extrapolateRight: "clamp",
@@ -539,7 +540,7 @@ const SceneQuestion: React.FC = () => {
         text="¿Qué significa en la práctica?"
         fontSize={88}
         fontWeight={900}
-        color={WHITE}
+        color={TEXT}
         enterAnimation="scale"
         exitAnimation="fade"
         enterDuration={20}
@@ -599,7 +600,7 @@ const SceneWithinReach: React.FC = () => {
           text="…este año pueden estar de nuevo a tu alcance"
           fontSize={64}
           fontWeight={900}
-          color={EMERALD}
+          color={PINK}
           enterAnimation="slideUp"
           exitAnimation="fade"
           enterDuration={20}
@@ -607,7 +608,7 @@ const SceneWithinReach: React.FC = () => {
           exitDuration={15}
           letterSpacing={-1}
           lineHeight={1.15}
-          textShadow={`0 0 40px ${EMERALD}66`}
+          textShadow={`0 0 40px ${PINK}66`}
           maxWidth="92%"
         />
       </Sequence>
@@ -646,7 +647,7 @@ const SceneDTI: React.FC = () => {
           fontFamily: FONT_FAMILIES.heading,
           fontSize: 44,
           fontWeight: 800,
-          color: WHITE,
+          color: TEXT,
           textAlign: "center",
           opacity: titleOpacity,
           lineHeight: 1.15,
@@ -698,7 +699,7 @@ const SceneDTI: React.FC = () => {
           style={{
             height: 48,
             width: BAR_MAX,
-            backgroundColor: "rgba(255,255,255,0.06)",
+            backgroundColor: SURFACE,
             borderRadius: 24,
             overflow: "hidden",
           }}
@@ -707,7 +708,7 @@ const SceneDTI: React.FC = () => {
             style={{
               height: "100%",
               width: `${(convProgress / 60) * 100}%`,
-              background: `linear-gradient(90deg, #475569, #64748b)`,
+              background: `linear-gradient(90deg, ${MUTED}, #C2B0B3)`,
               borderRadius: 24,
             }}
           />
@@ -735,7 +736,7 @@ const SceneDTI: React.FC = () => {
               fontFamily: FONT_FAMILIES.heading,
               fontSize: 36,
               fontWeight: 800,
-              color: EMERALD,
+              color: PINK,
             }}
           >
             FHA
@@ -745,9 +746,9 @@ const SceneDTI: React.FC = () => {
               fontFamily: FONT_FAMILIES.display,
               fontSize: 56,
               fontWeight: 900,
-              color: EMERALD,
+              color: PINK,
               fontVariantNumeric: "tabular-nums",
-              textShadow: `0 0 20px ${EMERALD}66`,
+              textShadow: `0 0 20px ${PINK}66`,
             }}
           >
             {Math.round(fhaProgress)}%
@@ -757,7 +758,7 @@ const SceneDTI: React.FC = () => {
           style={{
             height: 48,
             width: BAR_MAX,
-            backgroundColor: "rgba(255,255,255,0.06)",
+            backgroundColor: SURFACE,
             borderRadius: 24,
             overflow: "hidden",
           }}
@@ -766,9 +767,9 @@ const SceneDTI: React.FC = () => {
             style={{
               height: "100%",
               width: `${(fhaProgress / 60) * 100}%`,
-              background: `linear-gradient(90deg, ${EMERALD}, #34d399)`,
+              background: `linear-gradient(90deg, ${PINK}, ${GOLD})`,
               borderRadius: 24,
-              boxShadow: `0 0 30px ${EMERALD}88`,
+              boxShadow: `0 0 30px ${PINK}88`,
             }}
           />
         </div>
@@ -780,7 +781,7 @@ const SceneDTI: React.FC = () => {
             fontFamily: FONT_FAMILIES.heading,
             fontSize: 38,
             fontWeight: 700,
-            color: WHITE,
+            color: TEXT,
             textAlign: "center",
             opacity: interpolate(frame - 110, [0, 15], [0, 1], {
               extrapolateLeft: "clamp",
@@ -844,7 +845,7 @@ const SceneCreditScore: React.FC = () => {
           fontFamily: FONT_FAMILIES.heading,
           fontSize: 40,
           fontWeight: 700,
-          color: WHITE,
+          color: TEXT,
           textAlign: "center",
           opacity: interpolate(frame, [45, 65], [0, 1], {
             extrapolateLeft: "clamp",
@@ -891,7 +892,7 @@ const SceneConfirm: React.FC = () => {
         text="Confirma con tu banco los límites actualizados"
         fontSize={64}
         fontWeight={900}
-        color={WHITE}
+        color={TEXT}
         enterAnimation="slideUp"
         exitAnimation="fade"
         enterDuration={18}
@@ -948,11 +949,11 @@ const SceneCTA: React.FC = () => {
         style={{
           padding: "20px 48px",
           borderRadius: 999,
-          background: `linear-gradient(135deg, ${GOLD}, #fcd34d)`,
+          background: `linear-gradient(135deg, ${GOLD}, ${GOLD_LIGHT})`,
           fontFamily: FONT_FAMILIES.display,
           fontSize: 56,
           fontWeight: 900,
-          color: "#1a0f00",
+          color: "#FFFFFF",
           letterSpacing: 4,
           transform: `scale(${interpolate(
             vipProgress,
@@ -979,7 +980,7 @@ const SceneCTA: React.FC = () => {
               fontFamily: FONT_FAMILIES.heading,
               fontSize: 42,
               fontWeight: 600,
-              color: WHITE,
+              color: TEXT,
             }}
           >
             Listings
@@ -989,9 +990,9 @@ const SceneCTA: React.FC = () => {
               fontFamily: FONT_FAMILIES.display,
               fontSize: 220,
               fontWeight: 900,
-              color: EMERALD,
+              color: PINK,
               letterSpacing: -6,
-              textShadow: `0 0 60px ${EMERALD}aa`,
+              textShadow: `0 0 60px ${PINK}aa`,
               fontVariantNumeric: "tabular-nums",
               lineHeight: 1,
             }}
@@ -1003,7 +1004,7 @@ const SceneCTA: React.FC = () => {
               fontFamily: FONT_FAMILIES.heading,
               fontSize: 40,
               fontWeight: 700,
-              color: WHITE,
+              color: TEXT,
               textAlign: "center",
               lineHeight: 1.2,
             }}
@@ -1015,28 +1016,6 @@ const SceneCTA: React.FC = () => {
         </div>
       </Sequence>
 
-      <Sequence from={100}>
-        <div
-          style={{
-            marginTop: 20,
-            padding: "28px 56px",
-            borderRadius: 999,
-            backgroundColor: WHITE,
-            fontFamily: FONT_FAMILIES.heading,
-            fontSize: 44,
-            fontWeight: 900,
-            color: "#0a0a0a",
-            transform: `scale(${spring({
-              fps,
-              frame: frame - 100,
-              config: {damping: 10, stiffness: 120},
-            })})`,
-            boxShadow: `0 10px 40px rgba(0,0,0,0.4)`,
-          }}
-        >
-          👉 Link en bio
-        </div>
-      </Sequence>
     </AbsoluteFill>
   );
 };
@@ -1054,7 +1033,7 @@ const SCENES = [
   {Comp: SceneDTI, duration: 210},
   {Comp: SceneCreditScore, duration: 120},
   {Comp: SceneConfirm, duration: 150},
-  {Comp: SceneCTA, duration: 210},
+  {Comp: SceneCTA, duration: 180},
 ];
 
 export const FHA_LOAN_LIMITS_DURATION = SCENES.reduce(
@@ -1077,7 +1056,7 @@ export const FHALoanLimits: React.FC = () => {
       />
       <ParticleField
         count={40}
-        color="rgba(245, 158, 11, 0.25)"
+        color="rgba(242, 169, 184, 0.35)"
         speed={0.3}
         direction="up"
       />
@@ -1094,14 +1073,11 @@ export const FHALoanLimits: React.FC = () => {
         })}
       </SafeArea>
 
-      <ProgressBar color={GOLD} height={6} position="bottom" />
-      <Watermark
-        text="@soyenriquerocha"
-        corner="topRight"
-        opacity={0.7}
-        fontSize={22}
-        color={WHITE}
-        margin={50}
+      <ProgressBar
+        color={GOLD}
+        backgroundColor={SURFACE}
+        height={6}
+        position="bottom"
       />
     </AbsoluteFill>
   );
