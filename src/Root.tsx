@@ -3,6 +3,7 @@ import {Composition, Folder} from "remotion";
 // Compositions
 import {ShowcaseComposition} from "./compositions/Showcase";
 import {ReelPacifica} from "./compositions/ReelPacifica";
+import {ClipPacifica3D, CLIP_3D_DURATION} from "./compositions/ClipPacifica3D";
 
 // Social templates
 import {TikTokVideo} from "./templates/social/TikTokVideo";
@@ -29,6 +30,14 @@ export const RemotionRoot: React.FC = () => {
           id="ReelPacifica"
           component={ReelPacifica}
           durationInFrames={900}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        <Composition
+          id="ClipPacifica3D"
+          component={ClipPacifica3D}
+          durationInFrames={CLIP_3D_DURATION}
           fps={30}
           width={1080}
           height={1920}
