@@ -68,22 +68,18 @@ const fadeUp = (
   return { opacity: p, transform: `translateY(${(1 - p) * distance}px)` };
 };
 
+// Crossfade: each scene fades in over the previous one (which stays opaque underneath)
+const CROSSFADE = 12;
+
 const SceneFade: React.FC<{
-  duration: number;
   fadeIn?: number;
-  fadeOut?: number;
   children: React.ReactNode;
-}> = ({ duration, fadeIn = 12, fadeOut = 12, children }) => {
+}> = ({ fadeIn = CROSSFADE, children }) => {
   const frame = useCurrentFrame();
-  const inOp = fadeIn > 0 ? interpolate(frame, [0, fadeIn], [0, 1], clamp) : 1;
-  const outOp =
-    fadeOut > 0
-      ? interpolate(frame, [duration - fadeOut, duration], [1, 0], clamp)
-      : 1;
+  const opacity =
+    fadeIn > 0 ? interpolate(frame, [0, fadeIn], [0, 1], clamp) : 1;
   return (
-    <AbsoluteFill style={{ opacity: Math.min(inOp, outOp) }}>
-      {children}
-    </AbsoluteFill>
+    <AbsoluteFill style={{ opacity, background: BG }}>{children}</AbsoluteFill>
   );
 };
 
@@ -126,7 +122,7 @@ const Eyebrow: React.FC<{ text: string; delay: number }> = ({
       style={{
         fontFamily: SANS,
         fontSize: 28,
-        fontWeight: 600,
+        fontWeight: 700,
         letterSpacing: 9,
         color: GOLD,
         textTransform: "uppercase",
@@ -210,86 +206,12 @@ const ICON_PIN = [
   "M64 178 Q100 190 136 178",
 ];
 
-const ICON_HOUSES = [
-  "M8 166 H192",
-  "M14 112 L52 80 L90 112",
-  "M22 106 V166 M82 106 V166",
-  "M45 166 V138 H59 V166",
-  "M28 122 h12 v12 h-12 Z",
-  "M64 122 h12 v12 h-12 Z",
-  "M104 76 L148 40 L192 76",
-  "M168 56 V42 H178 V64",
-  "M112 70 V166 M184 70 V166",
-  "M112 118 H184",
-  "M124 84 h16 v18 h-16 Z",
-  "M156 84 h16 v18 h-16 Z",
-  "M122 132 h12 v14 h-12 Z",
-  "M162 132 h12 v14 h-12 Z",
-  "M141 166 V136 H155 V166",
-];
-
-const car = (cx: number) => [
-  `M${cx - 20} 150 V134 Q${cx - 20} 128 ${cx - 15} 127 L${cx - 10} 112 H${cx + 10} L${cx + 15} 127 Q${cx + 20} 128 ${cx + 20} 134 V150 Z`,
-  `M${cx - 8} 116 H${cx + 8} L${cx + 11} 124 H${cx - 11} Z`,
-  `${circ(cx - 13, 138, 3)} ${circ(cx + 13, 138, 3)} M${cx - 5} 141 H${cx + 5}`,
-  `M${cx - 17} 150 V157 H${cx - 11} V150 M${cx + 11} 150 V157 H${cx + 17} V150`,
-];
-
-const ICON_GARAGE = [
-  "M6 166 H194",
-  "M10 72 L100 34 L190 72",
-  "M18 72 H182",
-  "M24 72 V166 M176 72 V166",
-  "M88 56 H112",
-  ...car(54),
-  ...car(100),
-  ...car(146),
-];
-
-const ICON_DECK = [
-  "M6 172 H194",
-  "M34 120 H166 L186 140 H14 Z",
-  "M14 140 V152 H186 V140",
-  "M56 120 L42 140 M78 120 L71 140 M100 120 V140 M122 120 L129 140 M144 120 L158 140",
-  "M24 152 V172 M100 152 V172 M176 152 V172",
-  "M34 120 V84 M78 120 V84 M122 120 V84 M166 120 V84",
-  "M30 84 H170",
-  "M34 102 H166",
-  circ(160, 42, 12),
-  "M160 20 V24 M160 60 V64 M138 42 H142 M178 42 H182 M145 27 L148 30 M172 54 L175 57 M175 27 L172 30 M148 54 L145 57",
-];
-
-const ICON_COMMUNITY = [
-  "M6 168 H194",
-  circ(40, 90, 26),
-  "M40 116 V168 M40 140 L30 130 M40 132 L50 122",
-  "M160 42 L184 108 H136 Z",
-  "M150 70 H170 M144 90 H176",
-  "M160 108 V168",
-  circ(100, 106, 11),
-  "M84 168 V148 Q84 126 100 126 Q116 126 116 148 V168",
-  circ(74, 118, 8),
-  "M60 168 V154 Q60 134 74 134 Q81 134 85 138",
-  circ(126, 118, 8),
-  "M140 168 V154 Q140 134 126 134 Q119 134 115 138",
-  "M70 52 q6 -6 12 0 q6 -6 12 0",
-];
-
-const ICON_PLAN = [
-  "M40 44 H160 V164 H40 Z",
-  "M40 104 H92 M112 104 H160",
-  "M118 44 V82",
-  "M70 164 V128",
-  "M40 26 H160 M40 20 V32 M160 20 V32",
-  "M176 44 V164 M170 44 H182 M170 164 H182",
-];
-
 // ─── Scene 1: Hook ───────────────────────────────────────────────────────────
 const SceneHook: React.FC = () => {
   const frame = useCurrentFrame();
   const scale = interpolate(frame, [0, 100], [1.0, 1.12], clamp);
   return (
-    <SceneFade duration={90} fadeIn={0} fadeOut={14}>
+    <SceneFade fadeIn={0}>
       <AbsoluteFill style={{ overflow: "hidden" }}>
         <Img
           src={staticFile("terreno.jpg")}
@@ -343,7 +265,7 @@ const SceneHook: React.FC = () => {
 const SceneLocation: React.FC = () => {
   const frame = useCurrentFrame();
   return (
-    <SceneFade duration={90}>
+    <SceneFade>
       <SafeColumn gap={34}>
         <LineIcon paths={ICON_PIN} size={230} delay={6} duration={34} />
         <Eyebrow text="Ubicación" delay={14} />
@@ -419,7 +341,7 @@ const SceneLot: React.FC = () => {
   } as const;
 
   return (
-    <SceneFade duration={150}>
+    <SceneFade>
       <AbsoluteFill style={{ overflow: "hidden" }}>
         <div
           style={{
@@ -602,97 +524,148 @@ const SceneLot: React.FC = () => {
   );
 };
 
-// ─── Scenes 4–8: Feature cards ───────────────────────────────────────────────
-const FeatureScene: React.FC<{
+// ─── Scenes 4–8: Full-bleed photo cards ──────────────────────────────────────
+type KenBurns = {
+  origin: string;
+  position?: string;
+  from?: number;
+  to?: number;
+};
+
+const PhotoScene: React.FC<{
   duration: number;
+  src: string;
+  kenBurns: KenBurns;
   eyebrow: string;
-  icon: string[];
-  text: React.ReactNode;
-  fontSize?: number;
-}> = ({ duration, eyebrow, icon, text, fontSize = 74 }) => {
+  title: React.ReactNode;
+  gradientStart?: number;
+  children?: React.ReactNode;
+}> = ({
+  duration,
+  src,
+  kenBurns,
+  eyebrow,
+  title,
+  gradientStart = 34,
+  children,
+}) => {
   const frame = useCurrentFrame();
+  const { origin, position = "50% 50%", from = 1, to = 1.08 } = kenBurns;
+  const scale = interpolate(
+    frame,
+    [0, duration + CROSSFADE],
+    [from, to],
+    clamp,
+  );
+  const solid = Math.min(gradientStart + 30, 85);
   return (
-    <SceneFade duration={duration}>
-      <SafeColumn gap={44}>
-        <LineIcon paths={icon} size={400} delay={4} duration={40} />
-        <Eyebrow text={eyebrow} delay={14} />
+    <SceneFade>
+      <AbsoluteFill style={{ overflow: "hidden" }}>
+        <Img
+          src={staticFile(src)}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: position,
+            transform: `scale(${scale})`,
+            transformOrigin: origin,
+          }}
+        />
+      </AbsoluteFill>
+      <AbsoluteFill
+        style={{
+          background: `linear-gradient(180deg, rgba(250,248,243,0) ${gradientStart}%, rgba(250,248,243,0.9) ${solid}%, rgba(250,248,243,0.9) 100%)`,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: SAFE_TOP + 20,
+          right: 48,
+          padding: "8px 18px",
+          borderRadius: 40,
+          background: "rgba(250,248,243,0.78)",
+          fontFamily: SANS,
+          fontSize: 20,
+          fontWeight: 500,
+          letterSpacing: 1.5,
+          color: INK,
+          opacity: progress(frame, 10, 16),
+        }}
+      >
+        Imagen ilustrativa
+      </div>
+      <AbsoluteFill
+        style={{
+          justifyContent: "flex-end",
+          alignItems: "center",
+          textAlign: "center",
+          padding: `0 80px ${SAFE_BOTTOM + 30}px`,
+        }}
+      >
+        <Eyebrow text={eyebrow} delay={8} />
+        <div style={{ height: 24 }} />
+        {children}
         <div
           style={{
             fontFamily: SERIF,
-            fontSize,
+            fontSize: 70,
             lineHeight: 1.15,
             color: INK,
-            maxWidth: 880,
-            ...fadeUp(frame, 20),
+            maxWidth: 920,
+            ...fadeUp(frame, 14),
           }}
         >
-          {text}
+          {title}
         </div>
-        <GoldLine width={160} delay={30} />
-      </SafeColumn>
+        <div style={{ height: 32 }} />
+        <GoldLine width={200} delay={24} thickness={2} />
+      </AbsoluteFill>
     </SceneFade>
   );
 };
 
-const SceneArea: React.FC = () => {
+const Counter: React.FC = () => {
   const frame = useCurrentFrame();
   const count = Math.round(
-    interpolate(frame, [12, 66], [0, 2225], {
+    interpolate(frame, [10, 64], [0, 2225], {
       ...clamp,
       easing: Easing.out(Easing.cubic),
     }),
   );
   return (
-    <SceneFade duration={90}>
-      <SafeColumn gap={30}>
-        <LineIcon paths={ICON_PLAN} size={220} delay={2} duration={36} />
-        <Eyebrow text="Área de construcción" delay={8} />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-            gap: 14,
-            ...fadeUp(frame, 10),
-          }}
-        >
-          <span
-            style={{
-              fontFamily: SERIF,
-              fontSize: 230,
-              color: INK,
-              fontVariantNumeric: "tabular-nums",
-              lineHeight: 1,
-            }}
-          >
-            {count.toLocaleString("en-US")}
-          </span>
-          <span
-            style={{
-              fontFamily: SERIF,
-              fontSize: 96,
-              color: GOLD,
-              fontStyle: "italic",
-            }}
-          >
-            p²
-          </span>
-        </div>
-        <GoldLine width={420} delay={30} />
-        <div
-          style={{
-            fontFamily: SERIF,
-            fontSize: 64,
-            color: INK,
-            lineHeight: 1.15,
-            ...fadeUp(frame, 36),
-          }}
-        >
-          Construcción mínima
-          <br />
-          de 2,225 p²
-        </div>
-      </SafeColumn>
-    </SceneFade>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "baseline",
+        gap: 14,
+        marginBottom: 18,
+        ...fadeUp(frame, 8),
+      }}
+    >
+      <span
+        style={{
+          fontFamily: SERIF,
+          fontSize: 210,
+          color: INK,
+          fontVariantNumeric: "tabular-nums",
+          lineHeight: 1,
+        }}
+      >
+        {count.toLocaleString("en-US")}
+      </span>
+      <span
+        style={{
+          fontFamily: SERIF,
+          fontSize: 90,
+          color: GOLD,
+          fontStyle: "italic",
+        }}
+      >
+        p²
+      </span>
+    </div>
   );
 };
 
@@ -700,9 +673,9 @@ const SceneArea: React.FC = () => {
 const SceneClose: React.FC = () => {
   const frame = useCurrentFrame();
   return (
-    <SceneFade duration={150} fadeOut={0}>
+    <SceneFade>
       <SafeColumn gap={0}>
-        <div style={{ width: 440, height: 250, ...fadeUp(frame, 4, 30) }}>
+        <div style={{ width: 440, height: 220, ...fadeUp(frame, 4, 30) }}>
           <Img
             src={staticFile("logo-mp.png")}
             style={{ width: "100%", height: "100%", objectFit: "contain" }}
@@ -726,7 +699,8 @@ const SceneClose: React.FC = () => {
         <div
           style={{
             fontFamily: SERIF,
-            fontSize: 78,
+            fontSize: 88,
+            whiteSpace: "nowrap",
             color: INK,
             ...fadeUp(frame, 28),
           }}
@@ -737,7 +711,7 @@ const SceneClose: React.FC = () => {
         <div
           style={{
             fontFamily: SANS,
-            fontSize: 34,
+            fontSize: 40,
             fontWeight: 500,
             letterSpacing: 3,
             color: MUTED,
@@ -753,7 +727,7 @@ const SceneClose: React.FC = () => {
             alignItems: "center",
             gap: 22,
             fontFamily: SANS,
-            fontSize: 66,
+            fontSize: 86,
             fontWeight: 600,
             letterSpacing: 2,
             color: INK,
@@ -761,8 +735,8 @@ const SceneClose: React.FC = () => {
           }}
         >
           <svg
-            width={58}
-            height={58}
+            width={74}
+            height={74}
             viewBox="0 0 24 24"
             fill="none"
             stroke={GOLD}
@@ -780,13 +754,18 @@ const SceneClose: React.FC = () => {
           position: "absolute",
           right: 70,
           bottom: SAFE_BOTTOM + 80,
-          height: 76,
+          height: 130,
           ...fadeUp(frame, 54, 16),
         }}
       >
         <Img
           src={staticFile("realtor.png")}
-          style={{ height: "100%", width: "auto", objectFit: "contain" }}
+          style={{
+            height: "100%",
+            width: "auto",
+            objectFit: "contain",
+            mixBlendMode: "multiply",
+          }}
         />
       </div>
       <div
@@ -810,25 +789,55 @@ const SceneClose: React.FC = () => {
 };
 
 // ─── Main composition ────────────────────────────────────────────────────────
+// [start, duration] per scene; each Sequence runs CROSSFADE frames longer so
+// the next scene can fade in on top of it.
+const T = {
+  hook: [0, 90],
+  location: [90, 90],
+  lot: [180, 150],
+  house: [330, 90],
+  area: [420, 90],
+  garage: [510, 90],
+  deck: [600, 90],
+  community: [690, 60],
+  close: [750, 150],
+} as const;
+
+const Scene: React.FC<{
+  at: readonly [number, number];
+  name: string;
+  last?: boolean;
+  children: React.ReactNode;
+}> = ({ at, name, last, children }) => (
+  <Sequence
+    from={at[0]}
+    durationInFrames={at[1] + (last ? 0 : CROSSFADE)}
+    name={name}
+  >
+    {children}
+  </Sequence>
+);
+
 export const ReelPacifica: React.FC = () => {
   useBrandFonts();
   return (
     <AbsoluteFill style={{ background: BG }}>
-      <Sequence from={0} durationInFrames={90} name="1 · Hook">
+      <Scene at={T.hook} name="1 · Hook">
         <SceneHook />
-      </Sequence>
-      <Sequence from={90} durationInFrames={90} name="2 · Ubicación">
+      </Scene>
+      <Scene at={T.location} name="2 · Ubicación">
         <SceneLocation />
-      </Sequence>
-      <Sequence from={180} durationInFrames={150} name="3 · Solar">
+      </Scene>
+      <Scene at={T.lot} name="3 · Solar">
         <SceneLot />
-      </Sequence>
-      <Sequence from={330} durationInFrames={90} name="4 · Casa">
-        <FeatureScene
-          duration={90}
+      </Scene>
+      <Scene at={T.house} name="4 · Casa">
+        <PhotoScene
+          duration={T.house[1]}
+          src="casa.jpg"
+          kenBurns={{ origin: "50% 40%" }}
           eyebrow="Vivienda"
-          icon={ICON_HOUSES}
-          text={
+          title={
             <>
               Casa unifamiliar
               <br />
@@ -836,16 +845,37 @@ export const ReelPacifica: React.FC = () => {
             </>
           }
         />
-      </Sequence>
-      <Sequence from={420} durationInFrames={90} name="5 · Área">
-        <SceneArea />
-      </Sequence>
-      <Sequence from={510} durationInFrames={90} name="6 · Garaje">
-        <FeatureScene
-          duration={90}
+      </Scene>
+      <Scene at={T.area} name="5 · Área">
+        <PhotoScene
+          duration={T.area[1]}
+          src="casa.jpg"
+          kenBurns={{
+            origin: "30% 30%",
+            position: "30% 50%",
+            from: 1.15,
+            to: 1.23,
+          }}
+          eyebrow="Área de construcción"
+          gradientStart={22}
+          title={
+            <>
+              Construcción mínima
+              <br />
+              de 2,225 p²
+            </>
+          }
+        >
+          <Counter />
+        </PhotoScene>
+      </Scene>
+      <Scene at={T.garage} name="6 · Garaje">
+        <PhotoScene
+          duration={T.garage[1]}
+          src="garaje.jpg"
+          kenBurns={{ origin: "50% 50%" }}
           eyebrow="Estacionamiento"
-          icon={ICON_GARAGE}
-          text={
+          title={
             <>
               Garaje y carport
               <br />
@@ -853,13 +883,14 @@ export const ReelPacifica: React.FC = () => {
             </>
           }
         />
-      </Sequence>
-      <Sequence from={600} durationInFrames={90} name="7 · Terraza">
-        <FeatureScene
-          duration={90}
+      </Scene>
+      <Scene at={T.deck} name="7 · Terraza">
+        <PhotoScene
+          duration={T.deck[1]}
+          src="terraza.jpg"
+          kenBurns={{ origin: "50% 60%" }}
           eyebrow="Exterior"
-          icon={ICON_DECK}
-          text={
+          title={
             <>
               Terraza de madera
               <br />
@@ -869,19 +900,20 @@ export const ReelPacifica: React.FC = () => {
             </>
           }
         />
-      </Sequence>
-      <Sequence from={690} durationInFrames={60} name="8 · Comunidad">
-        <FeatureScene
-          duration={60}
+      </Scene>
+      <Scene at={T.community} name="8 · Comunidad">
+        <PhotoScene
+          duration={T.community[1]}
+          src="comunidad.jpg"
+          kenBurns={{ origin: "50% 40%" }}
           eyebrow="Comunidad"
-          icon={ICON_COMMUNITY}
-          fontSize={62}
-          text={<>Comunidad con asociación de residentes y áreas comunes</>}
+          gradientStart={30}
+          title={<>Comunidad con asociación de residentes y áreas comunes</>}
         />
-      </Sequence>
-      <Sequence from={750} durationInFrames={150} name="9 · Cierre">
+      </Scene>
+      <Scene at={T.close} name="9 · Cierre" last>
         <SceneClose />
-      </Sequence>
+      </Scene>
     </AbsoluteFill>
   );
 };
