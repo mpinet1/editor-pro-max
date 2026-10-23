@@ -447,10 +447,10 @@ const DroneCamera: React.FC = () => {
       ...clamp,
       easing: Easing.out(Easing.sin),
     });
-    const angle = angle0 - p * 1.05;
+    const angle = angle0 - p * 0.6;
     pos = new THREE.Vector3(
       ORBIT_CENTER.x + Math.sin(angle) * radius * (1 + p * 0.08),
-      start.y + p * 3,
+      start.y + p * 6,
       ORBIT_CENTER.z + Math.cos(angle) * radius * (1 + p * 0.08),
     );
     target = new THREE.Vector3(...last.target).lerp(
@@ -612,7 +612,7 @@ const Site: React.FC<{ lotTex: THREE.Texture }> = ({ lotTex }) => {
       {(
         [
           [-12.5, -9, 1.6],
-          [12.6, -11, 1.9],
+          [15.5, -21, 1.9],
           [-13, 12.5, 1.4],
           [13, 13.5, 1.5],
           [-36, 6, 2.2],
