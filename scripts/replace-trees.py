@@ -155,6 +155,8 @@ dsegs = segments(Dk)
 dsegs = [sg for sg in dsegs if np.median([Dk[i]["wb"] for i in sg]) > 150 and np.median([Dk[i]["ay"] for i in sg]) < 450]
 for si, seg in enumerate(dsegs):
     fl = dark_fl[si % len(dark_fl)]
+    if fl == "none":
+        continue
     lo, hi = max(0, seg[0] - 6), min(len(frames) - 1, seg[-1] + 60)
     rng, runs = [], []
     for i in range(lo, hi + 1):
