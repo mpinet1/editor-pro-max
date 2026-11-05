@@ -1,9 +1,13 @@
 """Coquito tree replacement for the chairlift village video.
+All 7 flavors:
+  python3 scripts/replace-trees.py <video> out.mp4 public/assets/coquito/trees green=pistacho,almendra,pistacho dark=cafe,cafe extras=scripts/coquito-extras.json
 Replace the green cone tree and the dark bottle-brush tree in the reference
 video with coquito-tree cutouts.  Usage:
-  python3 scripts/replace-trees.py <video> <out.mp4> public/assets/coquito/trees green=a,b,c dark=x,y
+  python3 composite.py <video> <out.mp4> <trees_dir> green=a,b,c dark=x,y
 Flavor lists are assigned per detected segment (in time order, cycling)."""
-import cv2, numpy as np, subprocess, sys
+import cv2, numpy as np, subprocess, sys, json, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from kltrack import track_anchor
 
 src, out, tdir = sys.argv[1], sys.argv[2], sys.argv[3]
 opts = dict(a.split("=") for a in sys.argv[4:])
@@ -175,6 +179,15 @@ for si, seg in enumerate(dsegs):
 print("green segments:", [(s[0], s[-1]) for s in gsegs])
 print("dark segments:", [(s[0], s[-1]) for s in dsegs])
 
+# extra anchored trees (white tree, small dark tree, planted tree)
+extras = json.load(open(opts["extras"])) if "extras" in opts else []
+grays = [cv2.cvtColor(f, cv2.COLOR_BGR2GRAY) for f in frames]
+extra_plan = []
+for e in extras:
+    tr = track_anchor(grays, e["key"], e["bx"], e["by"], e["h"], e["lo"], e["hi"])
+    extra_plan.append((e, tr))
+    print("extra", e["flavor"], min(tr), max(tr))
+
 # ── cutouts ──
 cache = {}
 
@@ -185,6 +198,13 @@ def cut(fl):
         a = im[:, :, 3]
         ys, xs = np.where(a > 20)
         im = im[ys.min() : ys.max() + 1, xs.min() : xs.max() + 1]
+        # feather edges so crop borders (snow kept by bg removal) don't show as straight lines
+        hh, ww = im.shape[:2]
+        yy = np.linspace(0, 1, hh)[:, None]
+        xx = np.linspace(0, 1, ww)[None, :]
+        ramp = np.clip((1 - yy) / 0.12, 0, 1) * np.clip(xx / 0.05, 0, 1) * np.clip((1 - xx) / 0.05, 0, 1)
+        im = im.copy()
+        im[:, :, 3] = (im[:, :, 3] * ramp).astype(np.uint8)
         # find apex x of the tree in the cutout
         top = np.where(im[:12, :, 3].max(axis=0) > 60)[0]
         cache[fl] = (im, float(top.mean()))
@@ -241,6 +261,11 @@ for i, f in enumerate(frames):
         mask = cv2.dilate(mask, np.ones((11, 11), np.uint8))
         f = cv2.inpaint(f, mask, 6, cv2.INPAINT_TELEA)
     big = cv2.resize(f, (Wo, Ho), interpolation=cv2.INTER_LANCZOS4)
+    for e, tr in extra_plan:
+        if i in tr:
+            bx, by, hh = tr[i]
+            th = hh * e.get("scale", 1.15)
+            paste(big, e["flavor"], bx * SCALE, (by + 0.04 * hh - th) * SCALE, th * SCALE)
     if "g" in p:
         fl, cx, base, h = p["g"]
         th = h * 1.22

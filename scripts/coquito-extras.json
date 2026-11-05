@@ -1,0 +1,7 @@
+[
+ {"flavor":"original","key":120,"bx":252,"by":492,"h":174,"lo":0,"hi":300},
+ {"flavor":"original","key":830,"bx":347,"by":520,"h":180,"lo":818,"hi":839},
+ {"flavor":"nutella","key":360,"bx":279,"by":462,"h":180,"lo":180,"hi":620},
+ {"flavor":"biscoff","key":360,"bx":330,"by":720,"h":300,"lo":180,"hi":620,"scale":1.0},
+ {"flavor":"oreo","key":750,"bx":410,"by":515,"h":185,"lo":480,"hi":817}
+]
