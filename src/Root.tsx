@@ -15,6 +15,7 @@ import {Testimonial} from "./templates/content/Testimonial";
 // Promo templates
 import {Announcement} from "./templates/promo/Announcement";
 import {BeforeAfterDemo} from "./compositions/BeforeAfterDemo";
+import {CoquitoTelesilla, COQUITO_DURATION, COQUITO_FPS} from "./compositions/CoquitoTelesilla";
 
 // Editing templates
 import {TalkingHeadEdit} from "./templates/editing/TalkingHeadEdit";
@@ -23,6 +24,17 @@ import {PodcastClip} from "./templates/editing/PodcastClip";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Folder name="ColdMagic">
+        <Composition
+          id="CoquitoTelesilla"
+          component={CoquitoTelesilla}
+          durationInFrames={COQUITO_DURATION}
+          fps={COQUITO_FPS}
+          width={1080}
+          height={1920}
+        />
+      </Folder>
+
       <Folder name="Examples">
         <Composition
           id="Showcase"
