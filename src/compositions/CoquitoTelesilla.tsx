@@ -22,8 +22,8 @@ export const COQUITO_FPS = 30;
 const INTRO_END = 100;
 const FIRST_CENTER = 132;
 const CHAIR_GAP = 66; // frames between chairs reaching the centre
-const OUTRO_START = 567;
-export const COQUITO_DURATION = 717; // ~24 s
+const OUTRO_START = 501;
+export const COQUITO_DURATION = 651; // ~21.7 s
 
 // ─── Layout ─────────────────────────────────────────────────────────
 const CABLE_Y = 290;
@@ -42,7 +42,6 @@ type Flavor = {
 const FLAVORS: Flavor[] = [
   {file: "original.jpg", pre: "Coquito", name: "Original", w: 1254, h: 1254, thumbPos: "94% 72%"},
   {file: "almendra.jpg", pre: "Coquito de", name: "Almendra", w: 1254, h: 1254, thumbPos: "94% 72%"},
-  {file: "cafe.jpg", pre: "Coquito de", name: "Café", w: 1254, h: 1254, thumbPos: "94% 72%"},
   {file: "pistacho.jpg", pre: "Coquito de", name: "Pistacho", w: 1536, h: 1024, thumbPos: "94% 72%"},
   {file: "nutella.jpg", pre: "Coquito de", name: "Nutella", w: 1536, h: 1024, thumbPos: "94% 72%"},
   {file: "biscoff.jpg", pre: "Coquito de", name: "Biscoff", w: 1536, h: 1024, thumbPos: "94% 72%"},
@@ -611,7 +610,7 @@ const Outro: React.FC = () => {
   const title = spring({frame: frame - 10, fps, config: {damping: 14}});
   const cta = spring({frame: frame - 60, fps, config: {damping: 9, stiffness: 140}});
   const pulse = 1 + 0.04 * Math.sin(frame / 5) * (frame > 75 ? 1 : 0);
-  const rows = [FLAVORS.slice(0, 4), FLAVORS.slice(4)];
+  const rows = [FLAVORS.slice(0, 3), FLAVORS.slice(3)];
   return (
     <AbsoluteFill style={{alignItems: "center"}}>
       <AbsoluteFill style={{background: "rgba(5,12,30,0.55)", opacity: bg}} />
@@ -631,13 +630,13 @@ const Outro: React.FC = () => {
           transform: `translateY(${(1 - title) * 30}px)`,
         }}
       >
-        7 sabores navideños
+        6 sabores navideños
       </div>
       <div style={{marginTop: 26, display: "flex", flexDirection: "column", gap: 22, alignItems: "center"}}>
         {rows.map((row, r) => (
           <div key={r} style={{display: "flex", gap: 22}}>
             {row.map((f, i) => {
-              const idx = r * 4 + i;
+              const idx = r * 3 + i;
               const p = spring({frame: frame - 18 - idx * 4, fps, config: {damping: 12, stiffness: 150}});
               return (
                 <div key={f.name} style={{width: 228, textAlign: "center", transform: `scale(${p})`, opacity: p}}>
