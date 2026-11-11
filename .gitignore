@@ -33,3 +33,6 @@ dist/
 .trae/
 .windsurf/
 .zencoder/
+
+# Material de propiedades (fotos, mapas, voz): no subir a este repo público
+public/assets/terreno/
