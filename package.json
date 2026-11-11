@@ -18,6 +18,7 @@
     "@remotion/cli": "4.0.440",
     "@remotion/google-fonts": "^4.0.440",
     "@remotion/install-whisper-cpp": "^4.0.440",
+    "@remotion/layout-utils": "^4.0.440",
     "@remotion/media": "^4.0.440",
     "@remotion/media-utils": "4.0.440",
     "@remotion/noise": "4.0.440",

@@ -3,6 +3,7 @@ import {Composition, Folder} from "remotion";
 // Compositions
 import {ShowcaseComposition} from "./compositions/Showcase";
 import {SalinasRemodel} from "./compositions/SalinasRemodel";
+import {TerrenoCarolina, TERRENO_DURATION} from "./compositions/TerrenoCarolina";
 
 // Social templates
 import {TikTokVideo} from "./templates/social/TikTokVideo";
@@ -40,6 +41,14 @@ export const RemotionRoot: React.FC = () => {
           id="SalinasRemodel"
           component={SalinasRemodel}
           durationInFrames={360}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        <Composition
+          id="TerrenoCarolina"
+          component={TerrenoCarolina}
+          durationInFrames={TERRENO_DURATION}
           fps={30}
           width={1080}
           height={1920}
