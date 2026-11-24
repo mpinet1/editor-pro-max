@@ -16,6 +16,7 @@
     "@imgly/background-removal-node": "^1.4.5",
     "@remotion/captions": "^4.0.440",
     "@remotion/cli": "4.0.440",
+    "@remotion/google-fonts": "^4.0.440",
     "@remotion/install-whisper-cpp": "^4.0.440",
     "@remotion/media": "^4.0.440",
     "@remotion/media-utils": "4.0.440",
@@ -33,9 +34,11 @@
   "devDependencies": {
     "@remotion/renderer": "4.0.440",
     "@types/fluent-ffmpeg": "^2.1.28",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "19.0.0",
     "@types/web": "0.0.166",
     "prettier": "3.4.2",
+    "qrcode": "^1.5.4",
     "tsx": "^4.21.0",
     "typescript": "5.7.3"
   },

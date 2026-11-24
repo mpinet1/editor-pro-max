@@ -15,6 +15,7 @@ import {Testimonial} from "./templates/content/Testimonial";
 // Promo templates
 import {Announcement} from "./templates/promo/Announcement";
 import {BeforeAfterDemo} from "./compositions/BeforeAfterDemo";
+import {CasaVillaCeleste, CASA_VILLA_CELESTE_DURATION} from "./compositions/CasaVillaCeleste";
 
 // Editing templates
 import {TalkingHeadEdit} from "./templates/editing/TalkingHeadEdit";
@@ -23,6 +24,17 @@ import {PodcastClip} from "./templates/editing/PodcastClip";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Folder name="Promos">
+        <Composition
+          id="CasaVillaCeleste"
+          component={CasaVillaCeleste}
+          durationInFrames={CASA_VILLA_CELESTE_DURATION}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+      </Folder>
+
       <Folder name="Examples">
         <Composition
           id="Showcase"
